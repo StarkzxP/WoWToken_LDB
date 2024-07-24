@@ -1,6 +1,6 @@
 # WoW Token Price LDB
 
-[<img src="https://img.shields.io/static/v1?label=Curseforge&message=Install&color=orange](https://www.curseforge.com/wow/addons/wow-token-price-ldb)
+[<img src="https://img.shields.io/static/v1?label=Curseforge&message=Install&color=orange>](https://www.curseforge.com/wow/addons/wow-token-price-ldb)
 
 ## Description
 
