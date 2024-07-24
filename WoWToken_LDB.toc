@@ -1,0 +1,11 @@
+## Interface: 110002
+
+## Title: WoW Token LDB
+## Version: 1.0.4
+## Notes: Shows WoW Token price for LDB compatible addons.
+## Author: StarkzXP1
+
+libs\LibStub\LibStub.lua
+libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
+
+WoWToken_LDB.lua
