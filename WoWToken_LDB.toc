@@ -1,7 +1,7 @@
 ## Interface: 110002
 
 ## Title: WoW Token LDB
-## Version: 1.0.4
+## Version: 1.0.5
 ## Notes: Shows WoW Token price for LDB compatible addons.
 ## Author: StarkzXP1
 
