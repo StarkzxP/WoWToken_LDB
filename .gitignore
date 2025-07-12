@@ -1,5 +1,6 @@
 *.txt
 *.png
+*.bak
 
 # Compiled Lua sources
 luac.out
