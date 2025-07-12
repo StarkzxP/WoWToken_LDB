@@ -3,34 +3,41 @@ name: Upload to CurseForge
 on:
     push:
         branches:
-            - main # Change this if you use a different main branch
+            - main
 
 jobs:
     upload-addon:
         runs-on: ubuntu-latest
 
         steps:
-            # 1. Download the repository code
             - name: Checkout repository
               uses: actions/checkout@v3
 
-            # 2. Get the repository name
             - name: Get repository name
               run: echo "repo_name=$(basename ${{ github.repository }})" >> $GITHUB_ENV
 
-            # 3. Read the version from the .toc file and convert interface to game_versions
-            - name: Extract version and format game versions
+            - name: Extract version and game versions
               run: |
+                  # Versión principal desde el .toc principal
                   version=$(grep -Po "(?<=## Version: )\d+\.\d+\.\d+" ${{ env.repo_name }}.toc)
-                  interface=$(grep -Po "(?<=## Interface: )\d+" ${{ env.repo_name }}.toc)
-                  major=$((interface / 10000))
-                  minor=$(( (interface % 10000) / 100 ))
-                  patch=$((interface % 100))
-                  game_version="${major}.${minor}.${patch}"
                   echo "addon_version=$version" >> $GITHUB_ENV
-                  echo "game_version=$game_version" >> $GITHUB_ENV
 
-            # 4. Create a folder with the repository name and move addon files into it
+                  # Recolectar TODAS las interfaces de los .toc
+                  interfaces=$(grep -rhPo "(?<=## Interface: )\d+" . | sort -u)
+
+                  # Convertir interfaces a versiones de juego (X.Y.Z)
+                  game_versions=""
+                  for interface in $interfaces; do
+                      major=$((interface / 10000))
+                      minor=$(( (interface % 10000) / 100 ))
+                      patch=$((interface % 100))
+                      game_versions+="${major}.${minor}.${patch},"
+                  done
+
+                  # Remover última coma y guardar
+                  game_versions=${game_versions%?}
+                  echo "game_versions=$game_versions" >> $GITHUB_ENV
+
             - name: Prepare addon folder
               run: |
                   mkdir "${{ env.repo_name }}"
@@ -41,25 +48,22 @@ jobs:
                       --exclude "CHANGELOG.md" \
                       --exclude "${{ env.repo_name }}"
 
-            # 5. Create the ZIP file with the format "name-version.zip"
             - name: Create addon ZIP
               run: |
                   zip -r "${{ env.repo_name }}-${{ env.addon_version }}.zip" "${{ env.repo_name }}"
 
-            # 6. Read the content of the CHANGELOG.md file
             - name: Read CHANGELOG.md
               run: |
                   changelog=$(cat CHANGELOG.md)
                   echo "changelog=$changelog" >> $GITHUB_ENV
 
-            # 7. Upload the ZIP file to CurseForge
             - name: Upload to CurseForge
               uses: itsmeow/curseforge-upload@v3.1.2
               with:
                   token: ${{ secrets.CURSEFORGE_API_KEY }}
                   project_id: ${{ secrets.CURSEFORGE_PROJECT_ID }}
                   game_endpoint: "wow"
-                  game_versions: "${{ env.game_version }}"
+                  game_versions: "${{ env.game_versions }}" # Todas las versiones detectadas
                   file_path: "${{ env.repo_name }}-${{ env.addon_version }}.zip"
                   changelog: "${{ env.changelog }}"
                   changelog_type: markdown
