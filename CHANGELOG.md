@@ -1,1 +1,1 @@
--   Updated to 11.1.0
+-   Updated to 11.2.0
