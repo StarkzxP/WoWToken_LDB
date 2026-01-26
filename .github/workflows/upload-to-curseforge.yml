@@ -23,7 +23,7 @@ jobs:
                   echo "addon_version=$version" >> $GITHUB_ENV
 
                   # Recolectar TODAS las interfaces de los .toc
-                  interfaces=$(grep -rhPo "(?<=## Interface: )\d+" . | sort -u)
+                  interfaces=$(grep -rh "## Interface: " . | sed 's/.*## Interface: //' | tr ',' '\n' | tr -d ' ' | sort -u)
 
                   # Convertir interfaces a versiones de juego (X.Y.Z)
                   game_versions=""
