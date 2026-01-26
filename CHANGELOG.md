@@ -1,1 +1,2 @@
--   Updated to 11.2.0
+- Updated to Retail 12.0.1
+- Updated to MoP Classic 5.5.3
