@@ -52,11 +52,6 @@ jobs:
               run: |
                   zip -r "${{ env.repo_name }}-${{ env.addon_version }}.zip" "${{ env.repo_name }}"
 
-            - name: Read CHANGELOG.md
-              run: |
-                  changelog=$(cat CHANGELOG.md)
-                  echo "changelog=$changelog" >> $GITHUB_ENV
-
             - name: Upload to CurseForge
               uses: itsmeow/curseforge-upload@v3.1.2
               with:
@@ -65,6 +60,6 @@ jobs:
                   game_endpoint: "wow"
                   game_versions: "${{ env.game_versions }}" # Todas las versiones detectadas
                   file_path: "${{ env.repo_name }}-${{ env.addon_version }}.zip"
-                  changelog: "${{ env.changelog }}"
+                  changelog: "@CHANGELOG.md"
                   changelog_type: markdown
                   release_type: release
