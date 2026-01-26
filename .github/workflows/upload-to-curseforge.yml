@@ -55,6 +55,17 @@ jobs:
               run: |
                   zip -r "${{ env.repo_name }}-${{ env.addon_version }}.zip" "${{ env.repo_name }}"
 
+            - name: Read CHANGELOG.md file content
+              id: get_changelog
+              run: |
+                  # Usa cat para leer el archivo, y el delimitador EOF para preservar saltos de línea y formato.
+                  changelog_content=$(cat CHANGELOG.md)
+                  # Guarda el contenido en una variable de salida del paso (GITHUB_OUTPUT).
+                  # El texto se cita correctamente para YAML/JSON.
+                  echo "text<<EOF" >> $GITHUB_OUTPUT
+                  echo "$changelog_content" >> $GITHUB_OUTPUT
+                  echo "EOF" >> $GITHUB_OUTPUT
+
             - name: Upload to CurseForge
               uses: itsmeow/curseforge-upload@v3.1.2
               with:
@@ -63,6 +74,6 @@ jobs:
                   game_endpoint: "wow"
                   game_versions: "${{ env.game_versions }}" # Todas las versiones detectadas
                   file_path: "${{ env.repo_name }}-${{ env.addon_version }}.zip"
-                  changelog: "@CHANGELOG.md"
+                  changelog: ${{ steps.get_changelog.outputs.text }}
                   changelog_type: markdown
                   release_type: release
