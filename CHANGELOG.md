@@ -1,2 +1,3 @@
-- Updated to Retail 12.0.7
-- Updated to MoP Classic 5.5.4
+- Updated to Retail 12.1.5
+- The price now updates as soon as the client reports a new market price, instead of waiting on a fixed delay
+- Thousands separators in the displayed price

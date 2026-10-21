@@ -23,7 +23,7 @@ jobs:
                   echo "addon_version=$version" >> $GITHUB_ENV
 
                   # Recolectar TODAS las interfaces de los .toc
-                  interfaces=$(grep -rh "## Interface:" . | grep -Eo '[0-9]+')
+                  interfaces=$(grep -h "## Interface:" *.toc | grep -Eo '[0-9]+')
 
                   # Eliminar duplicados y ordenar
                   interfaces=$(echo "$interfaces" | sort -u)
