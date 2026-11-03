@@ -1,3 +1,7 @@
-- Updated to Retail 12.1.5
-- The price now updates as soon as the client reports a new market price, instead of waiting on a fixed delay
-- Thousands separators in the displayed price
+- New addon icon
+- Tooltip with current price, last change (amount and %), session low/high, recorded low/high and recent price changes
+- Trend arrow next to the price (up/down since the last change)
+- Price history is saved per region between sessions
+- Right-click to cycle the display format (full, gold only, short like 245.3k)
+- Shift-click to paste the current price into chat
+- `/tokenldb` for all commands
